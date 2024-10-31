@@ -1,0 +1,49 @@
+#! /usr/bin/python3
+
+"""
+Word lists are from https://www.sciencegeek.net/lingo.html
+By the sound of their introduction to their word lists, I don't think
+they have ever intended my particular use of it, which is to produce
+long-winded phrases which say nothing or very little, or sound funny.
+
+VARIABLE DICTIONARY
+files: An array of filenames containing words or phrases by part of speech
+verbs, adjs, nouns, preps: 
+    A list of words/phrases by parts of speech, from the data files.
+    They consist of verbs, adjectives, nouns and prepositions.
+f: a filename to open
+fh: a file handle
+w: a word from the file
+
+After the arrays are populated from the various data files, words are chosen
+at random from each array, and printed out in the order of: verb, adjective, 
+noun, preposition. This seems to nearly always result in a realistic-sounding
+phrase, although rarely practical.
+
+This program randomly assembles 15 different phrases and outputs them to 
+standard output.
+"""
+import random as r
+
+files = ["adjectives.dat", "nouns.dat", "prepositions.dat", "verbs.dat"]
+
+verbs = []
+adjs = []
+nouns = []
+preps = []
+
+for f in files: # read data from the files into the arrays
+    fh = open(f, "r")
+    for w in fh:
+        if f == "adjectives.dat":
+            adjs.append(w.strip())
+        elif f == "nouns.dat":
+            nouns.append(w.strip())
+        elif f == "prepositions.dat":
+            preps.append(w.strip())
+        else:
+            verbs.append(w.strip())
+    fh.close()
+
+for i in range(15): # Create mind-numbing Edu-babble! :-)
+    print(r.choice(verbs), r.choice(adjs), r.choice(nouns), r.choice(preps))
