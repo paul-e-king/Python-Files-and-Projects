@@ -9,7 +9,17 @@ clearly make out. Whereas, a 2-character representation in the manner done here 
 clear.
 Deck will have an array (list) of 52 standard playing cards.
 """
-def build_deck(deck):
+def build_deck(deck: list) -> list:
+    """
+    Builds a standard card deck to start the game<br>
+    Input Parameter (required):<br>
+    deck: the deck to be built (should be empty)<br>
+    <br>
+    Suits_black and Suits_red are called globally, and represent the four card suits.
+    values is another global list which are the 13 face values of the cards.<br>
+    <br>
+    This function will return a full deck of cards, in order.
+    """
     for s in Suits_black:
         for v in values:
             deck.append(v+s)
@@ -19,7 +29,14 @@ def build_deck(deck):
             deck.append(v+RED+s+RESET)
     return Deck
 
-def shuffle(deck):
+def shuffle(deck: list) -> list:
+    """
+    This is a shuffling algorithm to scramble the cards without using Python's 
+    built-in functions.<br>
+
+    The input parameter is a non-empty list representing a deck of cards.<br>
+    The return value is the same deck of cards, scrambled.
+    """
     for i in range(len(deck)):
         temp = deck[i]
         rIdx = random.randint(0, len(deck)-1)
@@ -27,7 +44,13 @@ def shuffle(deck):
         deck[rIdx] = temp
     return deck
 
-def printDeck(deck):
+def printDeck(deck: list):
+    """
+    This routine prints a "deck" of cards to the console.<br>
+    The "deck" can be an actual deck, or it can be a player's hand.<br>
+
+    deck: an input parameter containing a list of cards.
+    """
     C = 0
     for c in deck:
         print(c, end = "  ")
@@ -36,11 +59,29 @@ def printDeck(deck):
             print()
     print()
 
-def deal(deck, numCards):
+def deal(deck: list, numCards: int) -> list:
+    """
+    This function deals cards to the player or the dealer.<br>
+
+    deck: the deck of cards to deal from.<br>
+    numCards: the number of cards to deal out.<br>
+
+    The function returns the hand of cards that was dealt.<br>
+
+    The reason we have numCards, even though we expect to play out one card at a time, is 
+    for reasons of flexibility and reusability. This same code can be used for a different 
+    game where more cards can be dealt.<br>
+
+    deck.pop() deals the top card and outputs that card. That output is sent immediately to
+    hand.append(), where the dealt card is added to the player's hand.
+    """
     hand = []
     for i in range(numCards):
         hand.append(deck.pop())
-    return hand
+    if numCards == 1:
+        return hand[0]
+    else:
+        return hand
 
 def handTotal(deck):
     """
@@ -125,7 +166,7 @@ while not quitting:
     cmd = cmd.lower()
     quitting = (cmd == "quit")
     if cmd == "hit":
-        Hand_player.append(deal(Deck, 1)[0]) # Kludgy!
+        Hand_player.append(deal(Deck, 1))
         print("Cards in your hand: ", end = "")
         printDeck(Hand_player)
         total = handTotal(Hand_player)
